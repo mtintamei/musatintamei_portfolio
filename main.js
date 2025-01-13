@@ -228,45 +228,47 @@
 
 })();
 
-document.querySelector('.php-email-form').addEventListener('submit', function(event) {
-  event.preventDefault();
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelector(".php-email-form").addEventListener('submit', function(event) {
+    event.preventDefault();
 
-  const form = event.target;
-  const loading = form.querySelector('.loading');
-  const errorMessage = form.querySelector('.error-message');
-  const sentMessage = form.querySelector('.sent-message');
+    const form = event.target;
+    const loading = form.querySelector('.loading');
+    const errorMessage = form.querySelector('.error-message');
+    const sentMessage = form.querySelector('.sent-message');
 
-  // Show loading message
-  loading.style.display = 'block';
-  errorMessage.style.display = 'none';
-  sentMessage.style.display = 'none';
+    // Show loading message
+    loading.style.display = 'block';
+    errorMessage.style.display = 'none';
+    sentMessage.style.display = 'none';
 
-  // Submit the form data to Formspree
-  fetch(form.action, {
-    method: form.method,
-    body: new FormData(form),
-    headers: {
-      'Accept': 'application/json'
-    }
-  })
-  .then(response => {
-    if (response.ok) {
-      // Show success message
-      sentMessage.style.display = 'block';
-      form.reset(); // Clear the form
-    } else {
+    // Submit the form data to Formspree
+    fetch(form.action, {
+      method: form.method,
+      body: new FormData(form),
+      headers: {
+        'Accept': 'application/json'
+      }
+    })
+    .then(response => {
+      if (response.ok) {
+        // Show success message
+        sentMessage.style.display = 'block';
+        form.reset(); // Clear the form
+      } else {
+        // Show error message
+        errorMessage.style.display = 'block';
+        errorMessage.textContent = 'There was an error submitting the form. Please try again.';
+      }
+    })
+    .catch(error => {
       // Show error message
       errorMessage.style.display = 'block';
       errorMessage.textContent = 'There was an error submitting the form. Please try again.';
-    }
-  })
-  .catch(error => {
-    // Show error message
-    errorMessage.style.display = 'block';
-    errorMessage.textContent = 'There was an error submitting the form. Please try again.';
-  })
-  .finally(() => {
-    // Hide loading message
-    loading.style.display = 'none';
+    })
+    .finally(() => {
+      // Hide loading message
+      loading.style.display = 'none';
+    });
   });
 });
