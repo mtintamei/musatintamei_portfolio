@@ -227,3 +227,46 @@
   document.addEventListener('scroll', navmenuScrollspy);
 
 })();
+
+document.getElementById('contact-form').addEventListener('submit', function(event) {
+  event.preventDefault(); // Prevent the default form submission
+
+  const form = event.target;
+  const loading = form.querySelector('.loading');
+  const errorMessage = form.querySelector('.error-message');
+  const sentMessage = form.querySelector('.sent-message');
+
+  // Show loading message
+  loading.style.display = 'block';
+  errorMessage.style.display = 'none';
+  sentMessage.style.display = 'none';
+
+  // Submit the form data to Formspree
+  fetch(form.action, {
+    method: form.method,
+    body: new FormData(form),
+    headers: {
+      'Accept': 'application/json'
+    }
+  })
+  .then(response => {
+    if (response.ok) {
+      // Show success message
+      sentMessage.style.display = 'block';
+      form.reset(); // Clear the form
+    } else {
+      // Show error message
+      errorMessage.style.display = 'block';
+      errorMessage.textContent = 'There was an error submitting the form. Please try again.';
+    }
+  })
+  .catch(error => {
+    // Show error message
+    errorMessage.style.display = 'block';
+    errorMessage.textContent = 'There was an error submitting the form. Please try again.';
+  })
+  .finally(() => {
+    // Hide loading message
+    loading.style.display = 'none';
+  });
+});
