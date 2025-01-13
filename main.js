@@ -228,8 +228,8 @@
 
 })();
 
-document.getElementById('contact-form').addEventListener('submit', function(event) {
-  event.preventDefault(); // Prevent the default form submission
+document.querySelector('.php-email-form').addEventListener('submit', function(event) {
+  event.preventDefault();
 
   const form = event.target;
   const loading = form.querySelector('.loading');
